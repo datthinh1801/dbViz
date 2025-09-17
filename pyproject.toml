@@ -1,0 +1,16 @@
+[project]
+name = "dbviz"
+version = "0.1.0"
+description = "Decision Boundary Visualization for PyTorch Models"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib>=3.10.6",
+    "numpy>=2.3.3",
+    "torch>=2.8.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.13.0",
+]

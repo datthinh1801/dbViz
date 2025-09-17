@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.utils.data as data
-from matplotlib import cm
 from matplotlib.colors import LinearSegmentedColormap
 
 from .utils import get_predictions
@@ -16,6 +15,7 @@ def plot_decision_boundaries(
     plot_pivots: bool = True,
     plane_size: int = 500,
     dpi: int = 240,
+    device: torch.device = torch.device("cpu"),
 ):
     """
     Plot the decision boundaries of a model on a plane.
@@ -42,7 +42,7 @@ def plot_decision_boundaries(
     # make region
     xx = plane_loader.dataset.coeff_x.reshape(plane_size, plane_size)
     yy = plane_loader.dataset.coeff_y.reshape(plane_size, plane_size)
-    zz = get_predictions(model, plane_loader).reshape(plane_size, plane_size)
+    zz = get_predictions(model, plane_loader, device).reshape(plane_size, plane_size)
     zz = zz.cpu().numpy()
     ax.scatter(xx, yy, c=zz, alpha=0.8, s=0.1)
 

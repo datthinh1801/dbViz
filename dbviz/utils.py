@@ -24,7 +24,7 @@ def get_random_samples(
     labels = []
 
     while len(samples) < 3:
-        idx = torch.randint(0, len(dataset), (1,))
+        idx = torch.randint(0, len(dataset), (1,)).item()
         sample, label = dataset[idx]
 
         sample = sample.squeeze()

@@ -31,7 +31,7 @@ def plot_decision_boundaries(
     Returns:
         plt.Figure: The plot figure.
     """
-    col_map = cm.get_cmap("tab10")
+    col_map = plt.colormaps["tab10"]
     cmaplist = [col_map(i) for i in range(num_classes)]
     col_map = LinearSegmentedColormap.from_list(
         "decision_boundary_colormap", cmaplist, N=num_classes

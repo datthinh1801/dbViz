@@ -119,7 +119,8 @@ class PlaneDataset(data.Dataset):
             x3 (torch.Tensor): a sample
 
         Returns:
-            _type_: _description_
+            Tuple[Span, list[Coordinate]]: A tuple containing the orthogonal basis vectors for the plane
+            and the coordinates of the three input samples in that plane.
         """
         v1 = x2 - x1
         v2 = x3 - x1

@@ -17,6 +17,10 @@ The main function is `plot_decision_boundary`, which takes a PyTorch model and 3
 ### `plot_decision_boundary`
 
 ```python
+import torch
+from typing import List, Union
+import matplotlib
+
 def plot_decision_boundary(
     model: torch.nn.Module,
     data_points: Union[torch.Tensor, List[torch.Tensor]],
@@ -30,7 +34,7 @@ def plot_decision_boundary(
 **Arguments**:
 
 *   `model` (torch.nn.Module): The PyTorch model to plot.
-*   `data_points` (Union[torch.Tensor, List[torch.Tensor]]): A list of 3 tensors or a single tensor of shape (3, C, H, W). The tensors should be normalized.
+*   `data_points` (Union[torch.Tensor, List[torch.Tensor]]): A list of 3 tensors or a single tensor of shape (3, C, H, W).
 *   `resolution` (int, optional): The resolution of the plot. Defaults to 500.
 *   `plot_range_expansion_l` (float, optional): The left expansion of the plot range. Defaults to 0.1.
 *   `plot_range_expansion_r` (float, optional): The right expansion of the plot range. Defaults to 0.1.

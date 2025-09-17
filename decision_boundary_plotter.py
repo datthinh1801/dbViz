@@ -21,7 +21,7 @@ def plot_decision_boundary(
     Args:
         model (torch.nn.Module): The PyTorch model to plot.
         data_points (Union[torch.Tensor, List[torch.Tensor]]): A list of 3 tensors or a single tensor
-            of shape (3, C, H, W). The tensors should be normalized.
+            of shape (3, C, H, W).
         resolution (int, optional): The resolution of the plot. Defaults to 500.
         plot_range_expansion_l (float, optional): The left expansion of the plot range. Defaults to 0.1.
         plot_range_expansion_r (float, optional): The right expansion of the plot range. Defaults to 0.1.
@@ -74,7 +74,7 @@ def get_plane(img1, img2, img3):
 
 
 class plane_dataset(torch.utils.data.Dataset):
-    def __init__(self, base_img, vec1, vec2, coords, resolution=0.2,
+    def __init__(self, base_img, vec1, vec2, coords, resolution=500,
                     range_l=.1, range_r=.1):
         self.base_img = base_img
         self.vec1 = vec1
@@ -112,7 +112,7 @@ def make_planeloader(images, resolution, plot_range_expansion_l, plot_range_expa
     planeset = plane_dataset(images[0], a, b_orthog, coords, resolution=resolution, range_l=plot_range_expansion_l, range_r=plot_range_expansion_r)
 
     planeloader = torch.utils.data.DataLoader(
-        planeset, batch_size=256, shuffle=False, num_workers=2)
+        planeset, batch_size=256, shuffle=False, num_workers=0)
     return planeloader
 
 
@@ -144,6 +144,7 @@ def _plot_decision_boundary_internal(preds, planeloader, images, labels, temp=1.
     col_map = matplotlib.colormaps.get_cmap('tab10')
     cmaplist = [col_map(i) for i in range(col_map.N)]
 
+    assert preds, "Predictions list cannot be empty."
     num_classes = preds[0].shape[0]
     classes = [f"Class {i}" for i in range(num_classes)]
 

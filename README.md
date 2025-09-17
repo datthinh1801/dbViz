@@ -1,76 +1,33 @@
-# Decision Boundary Plotter
+# dbViz — Decision Boundary Visualizer
 
-A simple library to plot the decision boundaries of a PyTorch model on a given set of 3 data points.
+Minimal install and quickstart to plot decision boundaries for PyTorch models.
 
 ## Installation
 
-This library requires `torch` and `matplotlib`. You can install them using pip:
-
 ```bash
-pip install torch matplotlib
+uv sync
 ```
 
-## Usage
+## Quickstart
 
-The main function is `plot_decision_boundary`, which takes a PyTorch model and 3 data points as input and returns a `matplotlib.figure.Figure` object.
-
-### `plot_decision_boundary`
+A tiny example that selects three samples, builds a plane loader, and plots decision boundaries:
 
 ```python
-import torch
-from typing import List, Union
-import matplotlib
+from dbviz.utils import get_random_samples, make_plane_loader
+from dbviz.plot import plot_decision_boundaries
+import matplotlib.pyplot as plt
 
-def plot_decision_boundary(
-    model: torch.nn.Module,
-    data_points: Union[torch.Tensor, List[torch.Tensor]],
-    resolution: int = 500,
-    plot_range_expansion_l: float = 0.1,
-    plot_range_expansion_r: float = 0.1,
-    device: str = 'cpu'
-) -> matplotlib.figure.Figure:
+# pick three samples from your dataset (example: CIFAR-10 testset)
+cifar10_samples, cifar10_labels = get_random_samples(testset_cifar10)
+
+# build a plane loader
+plane_loader = make_plane_loader(cifar10_samples, batch_size=256, plane_size=500)
+
+# plot and save
+fig = plot_decision_boundaries(model, cifar10_labels, plane_loader, num_classes=len(classes), plane_size=500)
+fig.savefig('decision_boundaries_cifar10.png')
+plt.show()
 ```
 
-**Arguments**:
+That's it — `uv sync` to install deps, then run the quickstart snippet after you load your model and dataset.
 
-*   `model` (torch.nn.Module): The PyTorch model to plot.
-*   `data_points` (Union[torch.Tensor, List[torch.Tensor]]): A list of 3 tensors or a single tensor of shape (3, C, H, W).
-*   `resolution` (int, optional): The resolution of the plot. Defaults to 500.
-*   `plot_range_expansion_l` (float, optional): The left expansion of the plot range. Defaults to 0.1.
-*   `plot_range_expansion_r` (float, optional): The right expansion of the plot range. Defaults to 0.1.
-*   `device` (str, optional): The device to run the model on. Defaults to 'cpu'.
-
-**Returns**:
-
-*   `matplotlib.figure.Figure`: The figure object containing the plot.
-
-### Example
-
-The following example shows how to use the library to plot the decision boundary of a dummy model.
-
-```python
-import torch
-from decision_boundary_plotter import plot_decision_boundary
-
-if __name__ == '__main__':
-    # Create a dummy model
-    class DummyModel(torch.nn.Module):
-        def __init__(self):
-            super().__init__()
-            self.fc1 = torch.nn.Linear(3 * 32 * 32, 10)
-
-        def forward(self, x):
-            x = x.view(x.shape[0], -1)
-            return self.fc1(x)
-
-    # Create dummy data
-    dummy_model = DummyModel()
-    dummy_data = torch.rand(3, 3, 32, 32)
-
-    # Plot the decision boundary
-    fig = plot_decision_boundary(dummy_model, dummy_data)
-
-    # Save the plot
-    fig.savefig('decision_boundary_example.png')
-    print("Saved example plot to decision_boundary_example.png")
-```

@@ -99,7 +99,7 @@ wheels = [
 
 [[package]]
 name = "dbviz"
-version = "0.1.4.dev2"
+version = "0.1.5"
 source = { virtual = "." }
 dependencies = [
     { name = "matplotlib" },
